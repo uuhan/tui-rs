@@ -36,13 +36,24 @@ fn main() -> Result<(), Box<dyn Error>> {
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
+    let mut a = true;
+
     let mut app = App::new("Termion demo", cli.enhanced_graphics);
     loop {
         terminal.draw(|f| ui::draw(f, &mut app))?;
 
+        if a {
+            println!("test message");
+            println!("test message");
+            println!("test message");
+            println!("test message");
+        }
+
         match events.next()? {
             Event::Input(key) => match key {
                 Key::Char(c) => {
+                    a = false;
+                    terminal.refresh()?;
                     app.on_key(c);
                 }
                 Key::Up => {
